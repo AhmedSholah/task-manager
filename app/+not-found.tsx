@@ -1,6 +1,6 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { Link, Stack } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 
 export default function NotFoundScreen() {
   return (
