@@ -2,9 +2,7 @@
 
 ## Demo Video
 
-<video src="video/preview_video.mp4" controls></video>
-
-[▶️ Watch the demo](video/preview_video.mp4)
+[▶️ Watch the demo](https://www.youtube.com/watch?v=qKNMSZsPLt8)
 
 ## Overview
 
