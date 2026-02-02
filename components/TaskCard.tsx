@@ -11,9 +11,16 @@ interface TaskCardProps {
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onPress: (id: string) => void;
 }
 
-export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
+export function TaskCard({
+  task,
+  onToggle,
+  onDelete,
+  onEdit,
+  onPress,
+}: TaskCardProps) {
   const formatDate = (date: Date) => {
     return (
       date.toLocaleDateString("en-US", { day: "numeric", month: "short" }) +
@@ -51,7 +58,11 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
   return (
     <View className="mb-3 rounded-2xl bg-background-light dark:bg-background-dark shadow-sm overflow-hidden">
       <Swipeable renderRightActions={renderRightActions}>
-        <View className="flex-row items-center gap-4 bg-white dark:bg-card-dark p-5">
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => onPress(task.id)}
+          className="flex-row items-center gap-4 bg-white dark:bg-card-dark p-5"
+        >
           <View className="shrink-0 self-start mt-0.5">
             <CheckBox
               checked={task.completed}
@@ -111,14 +122,15 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
               <View className="flex-row items-center gap-1.5 mt-2.5">
                 <MaterialIcons name="check-circle" size={16} color="#9CA3AF" />
                 <Text className="text-xs text-gray-400 font-medium">
-                  Completed {task.completedAt ? formatDate(task.completedAt) : ""}
+                  Completed{" "}
+                  {task.completedAt ? formatDate(task.completedAt) : ""}
                 </Text>
               </View>
             )}
           </View>
 
           <Badge text={task.priority} variant={task.priority} />
-        </View>
+        </TouchableOpacity>
       </Swipeable>
     </View>
   );

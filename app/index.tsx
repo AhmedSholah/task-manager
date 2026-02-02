@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FAB } from "../components/FAB";
 import {
@@ -15,7 +15,6 @@ import { Header } from "../components/Header";
 import { SearchBar } from "../components/SearchBar";
 import { TaskCard } from "../components/TaskCard";
 import { useTasks } from "../context/TaskContext";
-import { Alert } from "react-native";
 
 export default function Home() {
   const router = useRouter();
@@ -98,6 +97,10 @@ export default function Home() {
     router.push("/add");
   };
 
+  const handleTaskPress = (id: string) => {
+    router.push(`/task/${id}`);
+  };
+
   return (
     <SafeAreaView
       className="flex-1 bg-background-light dark:bg-background-dark"
@@ -130,6 +133,7 @@ export default function Home() {
                 onToggle={handleToggle}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
+                onPress={handleTaskPress}
               />
             )}
             ListEmptyComponent={() => (
