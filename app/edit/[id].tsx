@@ -17,7 +17,6 @@ export default function EditTask() {
       if (foundTask) {
         setTask(foundTask);
       } else {
-        // Handle task not found, maybe redirect back
         router.replace("/");
       }
     }
