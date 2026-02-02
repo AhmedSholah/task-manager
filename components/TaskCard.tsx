@@ -111,7 +111,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
               <View className="flex-row items-center gap-1.5 mt-2.5">
                 <MaterialIcons name="check-circle" size={16} color="#9CA3AF" />
                 <Text className="text-xs text-gray-400 font-medium">
-                  Completed
+                  Completed {task.completedAt ? formatDate(task.completedAt) : ""}
                 </Text>
               </View>
             )}

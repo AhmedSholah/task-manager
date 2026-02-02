@@ -1,11 +1,6 @@
-import { Text, View } from "react-native";
+import React from "react";
+import { TaskForm } from "../components/TaskForm";
 
-export default function AddTask() {
-  return (
-    <View className="flex-1 justify-center items-center bg-background-light dark:bg-background-dark">
-      <Text className="text-gray-900 dark:text-white">
-        Add Task Page (Stub)
-      </Text>
-    </View>
-  );
+export default function CreateTask() {
+  return <TaskForm mode="create" />;
 }
