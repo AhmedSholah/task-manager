@@ -17,6 +17,7 @@ interface TaskContextType {
   toggleTaskCompletion: (id: string) => void;
 }
 
+// Create the TaskContext with default values
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export function TaskProvider({ children }: { children: ReactNode }) {
@@ -62,20 +63,24 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Add a new task to the list
   const addTask = (task: Task) => {
     setTasks((prev) => [task, ...prev]);
   };
 
+  // Update an existing task
   const updateTask = (updatedTask: Task) => {
     setTasks((prev) =>
       prev.map((t) => (t.id === updatedTask.id ? updatedTask : t))
     );
   };
 
+  // Delete a task by ID
   const deleteTask = (id: string) => {
     setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
+  // Toggle task completion status
   const toggleTaskCompletion = (id: string) => {
     setTasks((prev) =>
       prev.map((t) => {
@@ -91,14 +96,6 @@ export function TaskProvider({ children }: { children: ReactNode }) {
       })
     );
   };
-
-  if (isLoading) {
-    // return (
-    //   <View className="flex-1 justify-center items-center bg-background-light dark:bg-background-dark">
-    //     <ActivityIndicator size="large" color="#10B981" />
-    //   </View>
-    // );
-  }
 
   return (
     <TaskContext.Provider
@@ -117,6 +114,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
 }
 
 export function useTasks() {
+  // Custom hook to access the TaskContext values
   const context = useContext(TaskContext);
   if (context === undefined) {
     throw new Error("useTasks must be used within a TaskProvider");

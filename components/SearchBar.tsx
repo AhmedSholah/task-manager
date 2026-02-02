@@ -10,7 +10,7 @@ interface SearchBarProps {
 export function SearchBar({ value, onChangeText }: SearchBarProps) {
   return (
     <View className="relative mb-4">
-      <View className="absolute inset-y-0 left-0 flex items-center justify-center pl-3 h-full z-10">
+      <View className="flex absolute inset-y-0 left-0 z-10 justify-center items-center pl-3 h-full">
         <MaterialIcons name="search" size={20} color="#9CA3AF" />
       </View>
       <TextInput
@@ -18,8 +18,8 @@ export function SearchBar({ value, onChangeText }: SearchBarProps) {
         onChangeText={onChangeText}
         placeholder="Search tasks..."
         placeholderTextColor="#9CA3AF"
-        className="w-full py-3 pl-10 pr-4 rounded-2xl bg-white dark:bg-card-dark shadow-sm text-sm text-gray-900 dark:text-white"
-        style={{ paddingLeft: 40 }} // NativeWind sometimes misses padding on TextInput if not explicit or platform variance
+        className="py-3 pr-4 pl-10 w-full text-sm text-gray-900 bg-white rounded-2xl shadow-sm dark:bg-card-dark dark:text-white"
+        style={{ paddingLeft: 40 }}
       />
     </View>
   );
