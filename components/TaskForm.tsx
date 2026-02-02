@@ -44,7 +44,7 @@ export function TaskForm({ mode, initialData }: TaskFormProps) {
   });
 
   const [date, setDate] = useState(
-    initialData?.dueDate ? new Date(initialData.dueDate) : new Date()
+    initialData?.dueDate ? new Date(initialData.dueDate) : new Date(),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -80,6 +80,7 @@ export function TaskForm({ mode, initialData }: TaskFormProps) {
     if (Platform.OS === "web" && dateInputRef.current) {
       dateInputRef.current.click();
     } else {
+      setShowTimePicker(false);
       setShowDatePicker(true);
     }
   };
@@ -88,25 +89,30 @@ export function TaskForm({ mode, initialData }: TaskFormProps) {
     if (Platform.OS === "web" && timeInputRef.current) {
       timeInputRef.current.click();
     } else {
+      setShowDatePicker(false);
       setShowTimePicker(true);
     }
   };
 
   const onDateChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(false);
+    if (Platform.OS === "android") {
+      setShowDatePicker(false);
+    }
     if (selectedDate) {
       const newDate = new Date(date);
       newDate.setFullYear(
         selectedDate.getFullYear(),
         selectedDate.getMonth(),
-        selectedDate.getDate()
+        selectedDate.getDate(),
       );
       setDate(newDate);
     }
   };
 
   const onTimeChange = (event: any, selectedDate?: Date) => {
-    setShowTimePicker(false);
+    if (Platform.OS === "android") {
+      setShowTimePicker(false);
+    }
     if (selectedDate) {
       const newDate = new Date(date);
       newDate.setHours(selectedDate.getHours(), selectedDate.getMinutes());
@@ -353,8 +359,8 @@ export function TaskForm({ mode, initialData }: TaskFormProps) {
                           ? p === "high"
                             ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
                             : p === "medium"
-                            ? "bg-orange-50 border-orange-200 dark:bg-orange-900/20 dark:border-orange-800"
-                            : "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800"
+                              ? "bg-orange-50 border-orange-200 dark:bg-orange-900/20 dark:border-orange-800"
+                              : "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800"
                           : "bg-white border-gray-200 dark:bg-card-dark dark:border-gray-700"
                       }`}
                     >
@@ -364,8 +370,8 @@ export function TaskForm({ mode, initialData }: TaskFormProps) {
                             ? p === "high"
                               ? "text-red-700 dark:text-red-400"
                               : p === "medium"
-                              ? "text-orange-700 dark:text-orange-400"
-                              : "text-green-700 dark:text-green-400"
+                                ? "text-orange-700 dark:text-orange-400"
+                                : "text-green-700 dark:text-green-400"
                             : "text-gray-500 dark:text-gray-400"
                         }`}
                       >

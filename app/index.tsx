@@ -5,12 +5,16 @@ import React, { useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FAB } from "../components/FAB";
-import { FilterSortBar } from "../components/FilterSortBar";
+import {
+  FilterSortBar,
+  PriorityFilters,
+  SortOption,
+  StatusFilters,
+} from "../components/FilterSortBar";
 import { Header } from "../components/Header";
 import { SearchBar } from "../components/SearchBar";
 import { TaskCard } from "../components/TaskCard";
 import { useTasks } from "../context/TaskContext";
-// QuickFilterBar handles its own types usually, but let's check imports.
 import { Alert } from "react-native";
 
 export default function Home() {
@@ -18,18 +22,57 @@ export default function Home() {
   const { tasks, toggleTaskCompletion, deleteTask, isLoading } = useTasks(); // Use Context
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Filter & Sort State
+  const [sortOption, setSortOption] = useState<SortOption>("Deadline");
+  const [statusFilters, setStatusFilters] = useState<StatusFilters>({
+    active: true,
+    completed: true,
+  });
+  const [priorityFilters, setPriorityFilters] = useState<PriorityFilters>({
+    high: true,
+    medium: true,
+    low: true,
+  });
+
   const filteredTasks = tasks
-    .filter(
-      (task) =>
+    .filter((task) => {
+      // Search
+      const matchesSearch =
         task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        task.description.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+        task.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+      if (!matchesSearch) return false;
+
+      // Status Filter
+      if (task.completed && !statusFilters.completed) return false;
+      if (!task.completed && !statusFilters.active) return false;
+
+      // Priority Filter
+      if (!priorityFilters[task.priority]) return false;
+
+      return true;
+    })
     .sort((a, b) => {
-      // Sort by completion status: completed tasks go to the bottom
-      if (a.completed === b.completed) {
-        return 0;
+      // Always sort by status first: Active -> Completed
+      if (a.completed !== b.completed) {
+        return a.completed ? 1 : -1;
       }
-      return a.completed ? 1 : -1;
+
+      switch (sortOption) {
+        case "Deadline":
+          return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+        case "Priority":
+          const priorityOrder = { high: 0, medium: 1, low: 2 };
+          return priorityOrder[a.priority] - priorityOrder[b.priority];
+        case "Date Created":
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "Alphabetical":
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
     });
 
   const handleToggle = (id: string) => {
@@ -65,9 +108,12 @@ export default function Home() {
         <Header />
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
         <FilterSortBar
-          onSortPress={() => {}}
-          onFilterPress={() => {}}
-          activeFilterCount={2}
+          sortOption={sortOption}
+          onSortChange={setSortOption}
+          statusFilters={statusFilters}
+          onStatusFilterChange={setStatusFilters}
+          priorityFilters={priorityFilters}
+          onPriorityFilterChange={setPriorityFilters}
         />
 
         {isLoading ? (
