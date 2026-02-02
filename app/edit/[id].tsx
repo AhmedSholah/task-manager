@@ -20,7 +20,7 @@ export default function EditTask() {
         router.replace("/");
       }
     }
-  }, [id, tasks]);
+  }, [id, tasks, router]);
 
   if (!task) {
     return (

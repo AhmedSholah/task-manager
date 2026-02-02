@@ -29,11 +29,6 @@ export function TaskCard({
     );
   };
 
-  const getTimeAgo = (date: Date) => {
-    // Simple stub
-    return "Created recently";
-  };
-
   const renderRightActions = () => {
     return (
       <View className="flex-row w-[120px] h-full">

@@ -1,50 +1,116 @@
-# Welcome to your Expo app 👋
+# Task Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Demo Video
 
-## Get started
+<video src="video/preview_video.mp4" controls></video>
+
+[▶️ Watch the demo](video/preview_video.mp4)
+
+## Overview
+
+Task Manager is a cross-platform app built with Expo and React Native. It helps you create, track, filter, and organize tasks with priorities and due dates across Android and iOS.
+
+## Features
+
+- Create, edit, and delete tasks
+- Mark tasks as complete or incomplete
+- Set priority and due date/time
+- Search tasks by title or description
+- Filter by status and priority
+- Sort by deadline, priority, date created, or alphabetical
+- Swipe actions on task cards for quick edit or delete
+- Automatic persistence with local storage
+
+## Tech Stack
+
+- Expo + React Native
+- Expo Router for file-based routing
+- React Hook Form for task forms
+- AsyncStorage for local persistence
+- NativeWind (Tailwind CSS) for styling
+- TypeScript for type safety
+
+## App Routes
+
+| Route      | Screen      | Description                         |
+| ---------- | ----------- | ----------------------------------- |
+| /          | Home        | Task list, search, filters, sorting |
+| /add       | Create Task | New task form                       |
+| /edit/[id] | Edit Task   | Edit an existing task               |
+| /task/[id] | Task Detail | Task details, status, actions       |
+| +not-found | Not Found   | Friendly 404 for invalid routes     |
+
+## Data Model
+
+The task model is defined in [task.ts](file:///c:/Users/Admin/Desktop/task-manager/types/task.ts).
+
+```ts
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: Date;
+  createdAt: Date;
+  priority: "high" | "medium" | "low";
+  completed: boolean;
+  completedAt?: Date;
+}
+```
+
+## Local Storage
+
+Tasks are stored using AsyncStorage. On startup, tasks are loaded and hydrated back into Date objects. Updates are saved automatically after any change.
+
+Storage key:
+
+- tasks
+
+## Project Structure
+
+```
+app/
+  +not-found.tsx      Not Found screen
+  _layout.tsx         Root layout and providers
+  index.tsx           Home screen
+  add.tsx             Create task screen
+  edit/[id].tsx       Edit task screen
+  edit/index.tsx      Redirects /edit to home
+  task/[id].tsx       Task detail screen
+components/
+  TaskForm.tsx        Task create/edit form
+  TaskCard.tsx        Task list item with swipe actions
+  FilterSortBar.tsx   Filters and sorting controls
+context/
+  TaskContext.tsx     App state and persistence
+types/
+  task.ts             Task types
+```
+
+## Getting Started
 
 1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 2. Start the app
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
 ```bash
-npm run reset-project
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+From the Expo CLI, you can open:
 
-## Learn more
+- Android emulator
+- iOS simulator
+- Web
+- Expo Go
 
-To learn more about developing your project with Expo, look at the following resources:
+## Scripts
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Start: `npm run start`
+- Android: `npm run android`
+- iOS: `npm run ios`
+- Web: `npm run web`
+- Lint: `npm run lint`

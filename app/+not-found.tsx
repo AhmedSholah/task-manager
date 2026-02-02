@@ -12,7 +12,7 @@ export default function NotFoundScreen() {
           Page Not Found
         </Text>
         <Text className="text-gray-500 mt-3 text-center text-base max-w-xs">
-          The page you are looking for doesn't exist or has been moved.
+          The page you are looking for does not exist or has been moved.
         </Text>
 
         <Link href="/" asChild>
